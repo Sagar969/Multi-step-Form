@@ -2,6 +2,7 @@ const body = document.querySelector('body');
 const btnsNav = document.querySelectorAll('.btn-nav')
 const formSection = document.querySelector('.form-frame')
 const steps = document.querySelectorAll('.step');
+const sidebarSteps = document.querySelectorAll('.nav-item');
 const btnPrevStep = document.querySelector('.btn-left');
 const btnNextStep = document.querySelector('.btn-right');
 
@@ -19,11 +20,12 @@ const planType = document.querySelector('.plan-type-slider');
 // Step - 3 Elements
 const addons = document.querySelectorAll('.addon');
 
-// Variables
+// Global Variables
 let currentStep = 1;
 let userPlan = 'Monthly';
 let errorMsg;
 
+// Class to store the data entered by user
 class FormData {
   constructor(name, email, phone) {
     this.name = name;
@@ -43,45 +45,45 @@ class FormData {
 };
 let user = new FormData('a', 'a', 'a');
 
-
-const displayStep = btnClicked => {
-  const stepNum = btnClicked.dataset.step;
+// To hide and display steps
+const displayStep = stepToOpen => {
+  const stepNum = stepToOpen.dataset.step;
   btnPrevStep.style.display = 'inline-block';
   btnNextStep.style.display = 'inline-block';
   btnNextStep.textContent = 'Next Step';
+  btnNextStep.style.backgroundColor= 'rgb(2, 41, 90)';
   steps[4].classList.remove('visible-step');
   steps.forEach(step => step.classList.remove('visible-step'));
+  sidebarSteps.forEach(el => el.classList.remove('active-step'));
   if(stepNum == 1) {
     steps[0].classList.add('visible-step');
+    sidebarSteps[0].classList.add('active-step');
     btnPrevStep.style.display = 'none';
   }
   if(stepNum == 2) {
     steps[1].classList.add('visible-step')
+    sidebarSteps[1].classList.add('active-step');
   }
   if(stepNum == 3) {
     steps[2].classList.add('visible-step');
+    sidebarSteps[2].classList.add('active-step');
   }
   if(stepNum == 4) {
     steps[3].classList.add('visible-step');
+    sidebarSteps[3].classList.add('active-step');
     btnNextStep.textContent = 'Confirm';
     btnNextStep.style.backgroundColor= 'rgb(71, 61, 255)';
   }
 }
 displayStep(btnsNav[0]);
 
-const openStep = (e) => {
+const openStep = () => {
   btnsNav.forEach(btn => btn.classList.remove('active-btn'));
-  if(!e) {
-    btnsNav[currentStep - 1].classList.add('active-btn')
-    displayStep(btnsNav[currentStep - 1]);
-  }
-  else {
-    const btnClicked = e.target;
-    btnClicked.classList.add('active-btn');
-    displayStep(btnClicked);
-  }
+  btnsNav[currentStep - 1].classList.add('active-btn')
+  displayStep(btnsNav[currentStep - 1]);
 }
 
+// To set and change subscribtion plan
 const updatePlans = (planSelected) => {
   user.planSelected = planSelected.querySelector('.plan-name').textContent;
   user.planTypeSelected = userPlan;
@@ -90,7 +92,7 @@ const updatePlans = (planSelected) => {
 }
 
 const selectPlan = (e) => {
-  const planSelected = e.target;
+  const planSelected = e.target.closest('.plan');
   plans.forEach(plan => plan.classList.remove('selected-plan'))
   planSelected.classList.add('selected-plan');
   updatePlans(planSelected);
@@ -108,13 +110,8 @@ const planPricingType = () => {
   updatePlans(document.querySelectorAll('.input-fields')[1].querySelector('.selected-plan'));
 }
 
-const addonPricingType = () => {
-  if(userPlan == 'Monthly') {
-    user.addonMonthlyCost.forEach((price, i) => document.querySelectorAll('.addon-pricing')[i].textContent = `$${price}/mo`);
-  }
-  else user.addonYearlyCost.forEach((price, i) => document.querySelectorAll('.addon-pricing')[i].textContent = `$${price}/yr`)
-}
 
+// To change plan type (monthly or yearly)
 const changePlanType = () => {
   document.querySelectorAll('.plan-type').forEach((plan) => (plan.style.color = 'rgb(150, 153, 171)'));
   userPlan = planType.checked ? 'Yearly' : 'Monthly';
@@ -125,21 +122,38 @@ const changePlanType = () => {
 }
 changePlanType();
 
+
+// To change addon type (monthly or yearly)
+function addonPricingType() {
+  if(userPlan == 'Monthly') {
+    user.addonMonthlyCost.forEach((price, i) => document.querySelectorAll('.addon-pricing')[i].textContent = `$${price}/mo`);
+  }
+  else user.addonYearlyCost.forEach((price, i) => document.querySelectorAll('.addon-pricing')[i].textContent = `$${price}/yr`)
+}
+
+// To select and deselect an addon
 const toggleAddon = (e, addon) => {
   if(addon.querySelector('input').checked) addon.classList.add('selected-plan');
   else addon.classList.remove('selected-plan');
 }
 
+
+// Function to show an error with a given message
 const showError = (err) => {
+  let errorAudio = new Audio('./assets/audio/system-error-notice.mp3')
   const errorBox = document.querySelector('.error-msg-box');
   document.querySelector('.error-msg').textContent = err;
   errorBox.style.display = 'block';
   errorBox.style.animationName = 'error-ani';
+  errorAudio.play();
   setTimeout(() => {
     errorBox.style.display = 'none';
   }, 2900);
 }
 
+
+// funtions to run on moving on to next step
+// Validating inputs
 const checkStep1 = () => {
   const nameReg = /^[a-zA-Z]+[a-zA-Z ]+$/
   const isName = nameReg.test(userName.value);
@@ -227,27 +241,27 @@ const lastStep = () => {
 }
 
 
-
 const nextStep = () => {
   if(currentStep === 1 && checkStep1()) {
     currentStep++;
-    openStep(undefined);
+    openStep();
     return;
   }
   if(currentStep === 2) {
     currentStep++;
-    openStep(undefined);
+    changePlanType();
+    openStep();
     return;
   }
   if(currentStep === 3) {
     checkStep3();
     currentStep++;
-    openStep(undefined);
+    openStep();
     checkStep4();
     return;
   }
   if(currentStep === 4) {
-    openStep(undefined);
+    openStep();
     currentStep++;
     lastStep();
     return;
@@ -255,19 +269,12 @@ const nextStep = () => {
 }
 const prevStep = () => {
   currentStep--;
-  openStep(undefined);
+  openStep();
 }
 
 
 
-
-
-
 // Event Listeners
-
-btnsNav.forEach(btn => {
-  btn.addEventListener('click', (e) => openStep(e))
-})
 window.addEventListener('keydown', (e) => {
   if(e.key === "Enter") nextStep();
 })
