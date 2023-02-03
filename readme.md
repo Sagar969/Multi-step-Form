@@ -71,6 +71,6 @@ In this project, I learned some new concepts and made a strong grip in some othe
 
 ## Author
 
-- Github - [Sagar696](https://github.com/Sagar969)
+- Github - [Sagar969](https://github.com/Sagar969)
 - LinkedIn - [Sagar Mavai](https://www.linkedin.com/in/sagar-mavai-986b25206)
 - Twitter - [@SagarMavai](https://twitter.com/SagarMavai)
