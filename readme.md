@@ -46,7 +46,7 @@ Users should be able to:
 
 ### The Links
 
-- Solution URL : [lick here](https://github.com/Sagar969/Multi-step-Form)
+- Solution URL : [click here](https://github.com/Sagar969/Multi-step-Form)
 - Live Site URL : [click here](https://sagar969.github.io/Multi-step-Form/)
 
 ## My Process
