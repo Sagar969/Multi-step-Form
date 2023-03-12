@@ -41,7 +41,7 @@ body {
 }
 footer {
     position: absolute;
-    top: 50%;
+    bottom: 3vh;
     left: 50%;
     transform: translatex(-50%);
     margin-top: 360px;
@@ -55,13 +55,13 @@ footer a :hover {
 }
 .container {
     width: 375px;
-    height: 667px;
+    height: 90vh;
     position: absolute;
-    top: 50%;
+    top: 2vh;
     margin-left: 50%;
-    border: 2px solid var(--cool-gray);
+    border-radius: 10px;
     box-shadow: 1rem 1rem 5rem var(--cool-gray);
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
 }
 .sidebar {
     position: relative;
@@ -486,6 +486,7 @@ input:placeholder-shown {
     color: var(--marine-blue)
 }
 .btn-right {
+    box-shadow: 0 0 5rem var(--cool-gray);
     right: 20px;
     background-color: var(--marine-blue);
     color: white;
@@ -500,13 +501,14 @@ input:placeholder-shown {
         font-size: 1.1rem;
     }
     .container {
+        top: 50%;
         padding: 10px;
         width: 1440px;
         display: flex;
         height: fit-content;
         background-color: var(--white);
         border: none;
-        border-radius: 10px;
+        transform: translate(-50%, -50%);
     }
     .btns-sidebar {
         flex-direction: column;
