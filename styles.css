@@ -41,7 +41,7 @@ body {
 }
 footer {
     position: absolute;
-    bottom: 3vh;
+    bottom: 2%;
     left: 50%;
     transform: translatex(-50%);
     margin-top: 360px;
@@ -55,9 +55,9 @@ footer a :hover {
 }
 .container {
     width: 375px;
-    height: 90vh;
+    height: 90%;
     position: absolute;
-    top: 2vh;
+    top: 2%;
     margin-left: 50%;
     border-radius: 10px;
     box-shadow: 1rem 1rem 5rem var(--cool-gray);
@@ -486,7 +486,7 @@ input:placeholder-shown {
     color: var(--marine-blue)
 }
 .btn-right {
-    box-shadow: 0 0 5rem var(--cool-gray);
+    box-shadow: 0 0 2rem var(--cool-gray);
     right: 20px;
     background-color: var(--marine-blue);
     color: white;
